@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Rutina · Tonificación</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ee;
+    --warm-white: #fdf9f5;
+    --blush: #e8c5b0;
+    --terracotta: #c4704a;
+    --deep: #2c1f17;
+    --mid: #6b4c38;
+    --soft: #a88a78;
+    --accent: #d4956a;
+    --green: #7a9e7e;
+    --green-light: #a8c5ab;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 52px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,112,74,0.25) 0%, transparent 70%);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(122,158,126,0.2) 0%, transparent 70%);
+  }
+
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--blush);
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--soft);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* PROGRESS BANNER */
+  .progress-banner {
+    display: flex;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .prog-stat {
+    flex: 1;
+    text-align: center;
+    padding: 14px 8px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .prog-stat:last-child { border-right: none; }
+
+  .prog-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--blush);
+    display: block;
+  }
+
+  .prog-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--soft);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* WEEK TABS */
+  .week-nav {
+    display: flex;
+    gap: 0;
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--blush);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .week-nav::-webkit-scrollbar { display: none; }
+
+  .week-tab {
+    flex: 0 0 auto;
+    padding: 14px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--soft);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .week-tab.active {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+  }
+
+  /* INTRO BOX */
+  .phase-intro {
+    margin: 20px 16px 0;
+    background: linear-gradient(135deg, var(--terracotta), #a8583a);
+    border-radius: 16px;
+    padding: 20px;
+    color: white;
+  }
+
+  .phase-intro h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+
+  .phase-intro p {
+    font-size: 12px;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  /* DAYS */
+  .days-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .day-card {
+    background: var(--warm-white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(196,112,74,0.15);
+    transition: transform 0.15s;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    cursor: pointer;
+    background: var(--warm-white);
+    transition: background 0.2s;
+  }
+
+  .day-header:hover { background: #f0ebe5; }
+
+  .day-header.rest-day {
+    background: linear-gradient(90deg, #f5f0ea, var(--warm-white));
+  }
+
+  .day-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .day-dot {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .day-dot.active { background: var(--deep); }
+  .day-dot.rest { background: var(--green-light); }
+  .day-dot.cardio { background: var(--blush); }
+
+  .day-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--deep);
+  }
+
+  .day-focus {
+    font-size: 11px;
+    color: var(--soft);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .day-badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(196,112,74,0.12);
+    color: var(--terracotta);
+  }
+
+  .day-badge.rest-badge {
+    background: rgba(122,158,126,0.15);
+    color: var(--green);
+  }
+
+  .chevron {
+    font-size: 12px;
+    color: var(--soft);
+    transition: transform 0.3s;
+    margin-left: 8px;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* EXERCISES */
+  .exercises-panel {
+    display: none;
+    padding: 0 18px 18px;
+    flex-direction: column;
+    gap: 10px;
+    animation: slideDown 0.25s ease;
+  }
+
+  .exercises-panel.open { display: flex; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .warmup-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 6px 0 2px;
+  }
+
+  .exercise-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    background: var(--cream);
+    border-radius: 12px;
+    border-left: 3px solid var(--blush);
+    transition: border-color 0.2s;
+  }
+
+  .exercise-row.completed {
+    border-left-color: var(--green);
+    opacity: 0.65;
+  }
+
+  .exercise-row:hover { border-left-color: var(--terracotta); }
+
+  .ex-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--blush);
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .ex-check.done {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+    font-size: 11px;
+  }
+
+  .ex-info { flex: 1; }
+
+  .ex-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--deep);
+    margin-bottom: 3px;
+  }
+
+  .ex-detail {
+    font-size: 12px;
+    color: var(--mid);
+  }
+
+  .ex-tip {
+    font-size: 11px;
+    color: var(--soft);
+    font-style: italic;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* REST DAY CONTENT */
+  .rest-content {
+    padding: 0 18px 18px;
+    display: none;
+  }
+  .rest-content.open { display: block; }
+
+  .rest-card {
+    background: linear-gradient(135deg, rgba(122,158,126,0.1), rgba(168,197,171,0.15));
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid rgba(122,158,126,0.2);
+  }
+
+  .rest-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+
+  /* TIPS SECTION */
+  .tips-section {
+    margin: 0 16px 16px;
+    background: var(--deep);
+    border-radius: 16px;
+    padding: 22px;
+    color: var(--cream);
+  }
+
+  .tips-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 14px;
+    color: var(--blush);
+  }
+
+  .tip-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(247,243,238,0.8);
+  }
+
+  .tip-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-pad { height: 80px; }
+
+  /* PHASE HIDDEN */
+  .phase-content { display: none; }
+  .phase-content.active { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Tu Rutina Personal</div>
+  <h1>Tonifica &amp;<br><em>transforma</em></h1>
+  <p class="hero-sub">Fuerza · Definición · Los últimos 4 kg</p>
+  <div class="progress-banner">
+    <div class="prog-stat">
+      <span class="prog-num">−17.6 kg</span>
+      <span class="prog-label">Perdidos</span>
+    </div>
+    <div class="prog-stat">
+      <span class="prog-num">62.2</span>
+      <span class="prog-label">Peso actual</span>
+    </div>
+    <div class="prog-stat">
+      <span class="prog-num">58 kg</span>
+      <span class="prog-label">Meta</span>
+    </div>
+    <div class="prog-stat">
+      <span class="prog-num">12 sem</span>
+      <span class="prog-label">Programa</span>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK TABS -->
+<div class="week-nav">
+  <button class="week-tab active" onclick="showPhase('fase1', this)">Fase 1 · Sem 1–4</button>
+  <button class="week-tab" onclick="showPhase('fase2', this)">Fase 2 · Sem 5–8</button>
+  <button class="week-tab" onclick="showPhase('fase3', this)">Fase 3 · Sem 9–12</button>
+</div>
+
+<!-- ======================== FASE 1 ======================== -->
+<div id="fase1" class="phase-content active">
+
+  <div class="phase-intro">
+    <h3>Fase 1 — Activación muscular</h3>
+    <p>Aprendemos los patrones de movimiento, activamos músculo dormido y comenzamos a crear definición. Pesos moderados, técnica perfecta. 3 días de fuerza + 2 cardio suave.</p>
+  </div>
+
+  <div class="days-container">
+
+    <!-- LUNES -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggleDay('lun1')">
+        <div class="day-left">
+          <div class="day-dot active">🍑</div>
+          <div>
+            <div class="day-name">Lunes</div>
+            <div class="day-focus">Glúteos + Piernas</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge">Fuerza</span>
+          <span class="chevron" id="chevron-lun1">▼</span>
+        </div>
+      </div>
+      <div class="exercises-panel" id="panel-lun1">
+        <div class="warmup-label">Calentamiento · 5–8 min</div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Caminata en cinta inclinada</div>
+            <div class="ex-detail">8 min · Inclinación 6–8% · Velocidad 5.5 km/h</div>
+          </div>
+        </div>
+
+        <div class="warmup-label">Trabajo principal</div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Sentadilla Goblet con Kettlebell</div>
+            <div class="ex-detail">4 series · 12 reps · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Mantén el pecho arriba, rodillas hacia afuera. Ideal para aprender la sentadilla.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Hip Thrust con barra (peso corporal primero)</div>
+            <div class="ex-detail">4 series · 15 reps · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Rey del glúteo. Aprieta fuerte arriba y aguanta 1 segundo.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Zancadas alternas caminando</div>
+            <div class="ex-detail">3 series · 12 reps por pierna · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Mantén el torso erguido, baja sin que la rodilla trasera golpee el suelo.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Extensión de pierna unilateral (máquina)</div>
+            <div class="ex-detail">3 series · 15 reps · Descanso 45 seg</div>
+            <div class="ex-tip">💡 Peso ligero, enfoque en el cuádriceps.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Curl de pierna acostada (máquina)</div>
+            <div class="ex-detail">3 series · 15 reps · Descanso 45 seg</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Elevación de pantorrillas de pie</div>
+            <div class="ex-detail">3 series · 20 reps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARTES -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggleDay('mar1')">
+        <div class="day-left">
+          <div class="day-dot cardio">🚴</div>
+          <div>
+            <div class="day-name">Martes</div>
+            <div class="day-focus">Cardio suave + Core</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge" style="background:rgba(232,197,176,0.3);color:#a8583a">Cardio</span>
+          <span class="chevron" id="chevron-mar1">▼</span>
+        </div>
+      </div>
+      <div class="exercises-panel" id="panel-mar1">
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Bicicleta estática o elíptica</div>
+            <div class="ex-detail">30 min · Zona 2 (puedes hablar mientras pedaleas)</div>
+            <div class="ex-tip">💡 No es trotar agotada. Es cardio de recuperación activa que quema grasa sin destruir músculo.</div>
+          </div>
+        </div>
+        <div class="warmup-label">Core · 15 min</div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Plancha frontal</div>
+            <div class="ex-detail">3 series · 30 seg → escala a 45 seg en la sem 3</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Plancha lateral (cada lado)</div>
+            <div class="ex-detail">3 series · 20 seg por lado</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Dead Bug (escarabajo)</div>
+            <div class="ex-detail">3 series · 10 reps por lado</div>
+            <div class="ex-tip">💡 Excelente para activar el abdomen profundo y reducir zona aguada del abdomen.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Crunch bicicleta</div>
+            <div class="ex-detail">3 series · 15 reps por lado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIÉRCOLES -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggleDay('mie1')">
+        <div class="day-left">
+          <div class="day-dot active">💪</div>
+          <div>
+            <div class="day-name">Miércoles</div>
+            <div class="day-focus">Espalda + Brazos + Hombros</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge">Fuerza</span>
+          <span class="chevron" id="chevron-mie1">▼</span>
+        </div>
+      </div>
+      <div class="exercises-panel" id="panel-mie1">
+        <div class="warmup-label">Calentamiento · 5 min</div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Rotaciones de hombro + movilidad escápula</div>
+            <div class="ex-detail">2 min · Con banda elástica ligera</div>
+          </div>
+        </div>
+
+        <div class="warmup-label">Trabajo principal</div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Jalón al pecho con polea (agarre amplio)</div>
+            <div class="ex-detail">4 series · 12 reps · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Define la espalda y levanta la postura. Baja hacia el pecho, no detrás del cuello.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Remo con mancuerna un brazo</div>
+            <div class="ex-detail">3 series · 12 reps · Descanso 60 seg</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Press de hombro con mancuernas</div>
+            <div class="ex-detail">3 series · 12 reps · Descanso 60 seg</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Elevación lateral de brazos (mancuernas)</div>
+            <div class="ex-detail">3 series · 15 reps · Peso muy ligero</div>
+            <div class="ex-tip">💡 Define los hombros. Codos ligeramente doblados, no balances.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Curl de bíceps con mancuernas</div>
+            <div class="ex-detail">3 series · 15 reps</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Extensión de tríceps con polea (cuerda)</div>
+            <div class="ex-detail">3 series · 15 reps</div>
+            <div class="ex-tip">💡 El tríceps es el que tonifica la parte trasera del brazo (adiós "alita").</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUEVES -->
+    <div class="day-card">
+      <div class="day-header rest-day" onclick="toggleDay('jue1')">
+        <div class="day-left">
+          <div class="day-dot rest">🧘</div>
+          <div>
+            <div class="day-name">Jueves</div>
+            <div class="day-focus">Descanso activo</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge rest-badge">Recuperación</span>
+          <span class="chevron" id="chevron-jue1">▼</span>
+        </div>
+      </div>
+      <div class="rest-content" id="panel-jue1">
+        <div class="rest-card">
+          <p>🌿 <strong>Descanso activo:</strong> Camina 30–40 minutos a paso tranquilo o haz 20 min de estiramientos. Tu cuerpo se compone durante el descanso, no durante el entrenamiento. Este día es sagrado.<br><br>
+          Puedes agregar <strong>yoga suave</strong> o movilidad de cadera si quieres hacer algo extra.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIERNES -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggleDay('vie1')">
+        <div class="day-left">
+          <div class="day-dot active">🍑</div>
+          <div>
+            <div class="day-name">Viernes</div>
+            <div class="day-focus">Glúteos + Pecho + Core</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge">Fuerza</span>
+          <span class="chevron" id="chevron-vie1">▼</span>
+        </div>
+      </div>
+      <div class="exercises-panel" id="panel-vie1">
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Sentadilla sumo con mancuerna</div>
+            <div class="ex-detail">4 series · 15 reps · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Pies abiertos más allá del ancho de hombros, activa más el glúteo interno y aductores.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Patada de glúteo en máquina (Cable Kickback)</div>
+            <div class="ex-detail">3 series · 15 reps por pierna</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Press de pecho con mancuernas en banco</div>
+            <div class="ex-detail">3 series · 12 reps · Descanso 60 seg</div>
+            <div class="ex-tip">💡 Levanta y tonifica el pecho, mejora la silueta general.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Aperturas en polea cruzada</div>
+            <div class="ex-detail">3 series · 15 reps</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Ab wheel o rueda abdominal</div>
+            <div class="ex-detail">3 series · 10 reps · desde rodillas</div>
+            <div class="ex-tip">💡 Uno de los mejores ejercicios para el abdomen completo.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Elevación de piernas colgada o en silla romana</div>
+            <div class="ex-detail">3 series · 12 reps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SÁBADO -->
+    <div class="day-card">
+      <div class="day-header" onclick="toggleDay('sab1')">
+        <div class="day-left">
+          <div class="day-dot cardio">🔥</div>
+          <div>
+            <div class="day-name">Sábado</div>
+            <div class="day-focus">Cardio HIIT corto</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge" style="background:rgba(232,197,176,0.3);color:#a8583a">HIIT</span>
+          <span class="chevron" id="chevron-sab1">▼</span>
+        </div>
+      </div>
+      <div class="exercises-panel" id="panel-sab1">
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">HIIT en cinta o bicicleta</div>
+            <div class="ex-detail">20 min total · 30 seg rápido / 90 seg lento · 8 rondas</div>
+            <div class="ex-tip">💡 El HIIT una vez por semana acelera el metabolismo sin quemar músculo. No más de 2 veces por semana.</div>
+          </div>
+        </div>
+        <div class="exercise-row">
+          <div class="ex-check" onclick="checkEx(this)"></div>
+          <div class="ex-info">
+            <div class="ex-name">Estiramiento completo de cuerpo</div>
+            <div class="ex-detail">15 min · Cuádriceps, isquiotibiales, cadera, hombros, espalda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINGO -->
+    <div class="day-card">
+      <div class="day-header rest-day" onclick="toggleDay('dom1')">
+        <div class="day-left">
+          <div class="day-dot rest">☀️</div>
+          <div>
+            <div class="day-name">Domingo</div>
+            <div class="day-focus">Descanso total</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="day-badge rest-badge">OFF</span>
+          <span class="chevron" id="chevron-dom1">▼</span>
+        </div>
+      </div>
+      <div class="rest-content" id="panel-dom1">
+        <div class="rest-card">
+          <p>🌸 <strong>Descanso total merecido.</strong> Hoy el músculo crece y se afirma. Come bien, hidratate, duerme bien. La consistencia de 6 días → descanso 1 día es la fórmula que funciona.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /days-container -->
+</div><!-- /fase1 -->
+
+<!-- ======================== FASE 2 ======================== -->
+<div id="fase2" class="phase-content">
+  <div class="phase-intro" style="background: linear-gradient(135deg, #5a7a5e, #3d5c42);">
+    <h3>Fase 2 — Intensidad progresiva</h3>
+    <p>Aumentamos el peso y empezamos supersets. El cuerpo ya conoce los movimientos, ahora lo retamos. Aquí la tonificación se vuelve visible. Añadimos un 4.° día de pesas.</p>
+  </div>
+
+  <div class="days-container">
+    <div class="day-card">
+      <div class="day-header" style="background:#fdf9f5">
+        <div class="day-left">
+          <div class="day-dot active">📈</div>
+          <div>
+            <div class="day-name">Semanas 5–8</div>
+            <div class="day-focus">Progresión de la Fase 1</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 18px 18px;">
+        <div style="background:var(--cream);border-radius:12px;padding:16px;margin-top:4px;">
+          <p style="font-size:13px;line-height:1.8;color:var(--mid);">
+            ✦ <strong>Agrega 2.5–5 kg</strong> a todos los ejercicios de pesas donde puedas.<br>
+            ✦ Introduce <strong>supersets</strong> (2 ejercicios seguidos sin descanso, ej. Sentadilla + Hip Thrust).<br>
+            ✦ <strong>4 días de fuerza</strong> — agrega el jueves como día de Full Body ligero.<br>
+            ✦ HIIT sube a <strong>25 min</strong> (10 rondas).<br>
+            ✦ Reduce descanso entre series a <strong>45 segundos</strong>.<br>
+            ✦ <strong>Tempo en negativa:</strong> baja en 3 segundos, sube explosiva. Activa más fibra muscular.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FASE 3 ======================== -->
+<div id="fase3" class="phase-content">
+  <div class="phase-intro" style="background: linear-gradient(135deg, #2c1f17, #6b4c38);">
+    <h3>Fase 3 — Definición final</h3>
+    <p>Las últimas semanas son donde el cuerpo se "seca" y toma forma. Menos descanso, más volumen, técnicas avanzadas. Aquí llegas a los 58 kg con músculo firme.</p>
+  </div>
+
+  <div class="days-container">
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-left">
+          <div class="day-dot active">🏆</div>
+          <div>
+            <div class="day-name">Semanas 9–12</div>
+            <div class="day-focus">Modo definición total</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 18px 18px;">
+        <div style="background:var(--cream);border-radius:12px;padding:16px;margin-top:4px;">
+          <p style="font-size:13px;line-height:1.8;color:var(--mid);">
+            ✦ <strong>Drop sets</strong> en el último set de cada ejercicio principal (baja el peso y sigue).<br>
+            ✦ <strong>5 días de entrenamiento</strong> — 3 fuerza + 1 HIIT + 1 Full Body.<br>
+            ✦ Cardio Zona 2 sube a <strong>40 min</strong> los días de cardio.<br>
+            ✦ Agrega <strong>Glute Bridge con banda</strong> como calentamiento de glúteos todos los días de pierna.<br>
+            ✦ <strong>Foto de progreso</strong> cada 2 semanas. Los números en báscula importan menos que cómo luce y siente el cuerpo.<br>
+            ✦ Si alcanza los 58 kg antes, ¡el objetivo cambia a mantener y seguir tonificando!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSEJOS -->
+<div class="tips-section">
+  <h3>Claves para el éxito 🌟</h3>
+  <div class="tip-item">
+    <span class="tip-icon">🥩</span>
+    <span><strong>Proteína en cada comida.</strong> Para tonificar se necesita proteína para construir músculo. Objetivo: ~100–110g al día. Pollo, huevo, atún, queso cottage bajo en grasa.</span>
+  </div>
+  <div class="tip-item">
+    <span class="tip-icon">💧</span>
+    <span><strong>Hidratación.</strong> Mínimo 2.5 litros de agua al día. El músculo es 75% agua. La hidratación reduce retención de líquidos.</span>
+  </div>
+  <div class="tip-item">
+    <span class="tip-icon">😴</span>
+    <span><strong>Dormir 7–8 horas.</strong> Durante el sueño se libera hormona de crecimiento que afirma el músculo. Sin sueño, sin resultados.</span>
+  </div>
+  <div class="tip-item">
+    <span class="tip-icon">📸</span>
+    <span><strong>Mide con fotos y ropa, no solo báscula.</strong> Al ganar músculo el peso puede quedar igual mientras el cuerpo se ve mejor.</span>
+  </div>
+  <div class="tip-item">
+    <span class="tip-icon">📅</span>
+    <span><strong>Consistencia > Perfección.</strong> Fallar un día no arruina nada. Abandonar sí. 3 meses de disciplina cambian el cuerpo completamente.</span>
+  </div>
+</div>
+
+<div class="bottom-pad"></div>
+
+<script>
+function toggleDay(id) {
+  const panel = document.getElementById('panel-' + id);
+  const chevron = document.getElementById('chevron-' + id);
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  if (chevron) chevron.classList.toggle('open', !isOpen);
+}
+
+function checkEx(el) {
+  const isDone = el.classList.contains('done');
+  el.classList.toggle('done', !isDone);
+  el.textContent = isDone ? '' : '✓';
+  const row = el.closest('.exercise-row');
+  row.classList.toggle('completed', !isDone);
+}
+
+function showPhase(phaseId, btn) {
+  document.querySelectorAll('.phase-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(phaseId).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
