@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rutina de Tatis ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#F2789F;
+  --pink-light:#FDE8F0;
+  --coral:#F56E6E;
+  --gold:#F5A623;
+  --gold-light:#FEF3DC;
+  --purple:#9B7FE8;
+  --purple-light:#EEE8FC;
+  --teal:#2ABFB0;
+  --teal-light:#E0F9F7;
+  --green:#5BB85A;
+  --green-light:#EAF7EA;
+  --bg:#FFF8FC;
+  --card:#FFFFFF;
+  --text:#2C1A2E;
+  --muted:#8B6B8E;
+  --border:#F2D6E8;
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:680px;margin:0 auto}
+.hero{background:linear-gradient(135deg,#FDE8F0 0%,#FEF3DC 50%,#E0F9F7 100%);padding:2.5rem 1.5rem 2rem;text-align:center;border-bottom:2px dashed var(--border)}
+.hero-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:#C94080;line-height:1.1;margin-bottom:.4rem}
+.hero-subtitle{font-size:1rem;color:var(--muted);font-weight:600;letter-spacing:.05em}
+.hero-stats{display:flex;justify-content:center;gap:.7rem;margin-top:1.5rem;flex-wrap:wrap}
+.stat-pill{background:white;border:1.5px solid var(--border);border-radius:50px;padding:.4rem 1rem;font-size:.8rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.4rem}
+.goal-banner{background:linear-gradient(90deg,#F2789F,#F5A623);color:white;padding:1rem 1.5rem;text-align:center;font-weight:700;font-size:.9rem;letter-spacing:.03em}
+.goal-banner b{font-size:1.05rem}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#C94080;padding:1.5rem 1.5rem .5rem;border-bottom:1.5px solid var(--border)}
+.day-card{margin:1rem 1rem .5rem;border-radius:16px;border:1.5px solid var(--border);background:var(--card);overflow:hidden}
+.day-header{padding:1rem 1.25rem .75rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none}
+.day-emoji{font-size:1.8rem;flex-shrink:0}
+.day-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+.day-sub{font-size:.75rem;font-weight:600;color:var(--muted);margin-top:1px}
+.day-toggle{margin-left:auto;font-size:.85rem;color:var(--muted);font-weight:700;transition:transform .3s}
+.day-body{padding:0 1.25rem 1.25rem;display:none}
+.day-body.open{display:block}
+.warm-up{background:var(--gold-light);border-radius:10px;padding:.6rem .9rem;margin-bottom:.8rem;font-size:.8rem;font-weight:700;color:#A0680A;display:flex;align-items:center;gap:.5rem}
+.section-tag{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:.8rem 0 .4rem;padding-left:.25rem}
+.exercise-list{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.exercise-item{display:flex;align-items:center;gap:.7rem;background:var(--bg);border-radius:10px;padding:.5rem .8rem;font-size:.85rem;font-weight:600}
+.ex-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}
+.ex-name{flex:1;color:var(--text)}
+.ex-sets{font-size:.75rem;font-weight:700;white-space:nowrap;background:white;border:1px solid var(--border);border-radius:6px;padding:.15rem .45rem;color:var(--muted)}
+.cardio-block{background:var(--teal-light);border-radius:10px;padding:.6rem .9rem;margin-top:.8rem;font-size:.8rem;font-weight:700;color:#1A7A73;display:flex;align-items:center;gap:.5rem}
+.d1 .ex-num{background:#FDE8F0;color:#C94080}
+.d2 .ex-num{background:#EEE8FC;color:#7050C0}
+.d3 .ex-num{background:#FEF3DC;color:#A0680A}
+.d4 .ex-num{background:#E0F9F7;color:#1A7A73}
+.d5 .ex-num{background:#FDE8F0;color:#C94080}
+.rest-card{margin:1rem;border-radius:16px;background:var(--green-light);border:1.5px dashed #A8D8A7;padding:1.25rem;text-align:center}
+.rest-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#3A7A39;margin-bottom:.5rem}
+.rest-options{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
+.rest-option{background:white;border:1.5px solid #A8D8A7;border-radius:50px;padding:.35rem .9rem;font-size:.8rem;font-weight:700;color:#3A7A39}
+.meta-section{margin:1rem;border-radius:16px;background:linear-gradient(135deg,var(--pink-light),var(--purple-light));border:1.5px solid var(--border);padding:1.5rem}
+.meta-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:#C94080;font-weight:700;margin-bottom:1rem;text-align:center}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.7rem}
+.meta-item{background:white;border-radius:12px;padding:.75rem;text-align:center;border:1px solid var(--border)}
+.meta-icon{font-size:1.5rem;margin-bottom:.3rem}
+.meta-val{font-size:.85rem;font-weight:800;color:var(--text)}
+.meta-label{font-size:.7rem;color:var(--muted);font-weight:600}
+.tip-box{margin:0 1rem 1rem;background:linear-gradient(90deg,var(--teal-light),var(--gold-light));border-radius:14px;border:1.5px solid var(--border);padding:1rem 1.25rem}
+.tip-title{font-size:.8rem;font-weight:800;color:#1A7A73;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem}
+.tip-text{font-size:.82rem;font-weight:600;color:var(--text);line-height:1.5}
+.footer{text-align:center;padding:1.5rem 1rem 2.5rem;background:linear-gradient(135deg,#FDE8F0,#FEF3DC);font-size:.85rem;color:var(--muted);font-weight:600}
+.footer strong{color:#C94080;font-family:'Playfair Display',serif;font-size:1rem}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-title">Tu Rutina, Tatis ✨</div>
+  <div class="hero-subtitle">5 días · 60–90 min · Gym completo + alberca</div>
+  <div class="hero-stats">
+    <div class="stat-pill"><span>📏</span> 161 cm · 64.8 kg</div>
+    <div class="stat-pill"><span>🎯</span> Meta: 60 kg</div>
+    <div class="stat-pill"><span>⏱️</span> 1 año de experiencia</div>
+    <div class="stat-pill"><span>💧</span> Ayuno intermitente</div>
+  </div>
+</div>
+
+<div class="goal-banner">
+  Meta en 3 meses → <b>Glúteos firmes · Abdomen plano · Piernas definidas · Mejor condición</b>
+</div>
+
+<div class="section-title">🗓️ Tus 5 días de entrenamiento</div>
+
+<!-- DÍA 1 -->
+<div class="day-card d1" id="d1">
+  <div class="day-header" onclick="toggle('1')">
+    <div class="day-emoji">🍑</div>
+    <div>
+      <div class="day-title">Día 1 — Glúteo y Femoral</div>
+      <div class="day-sub">Activación y volumen posterior</div>
+    </div>
+    <div class="day-toggle" id="arr1">▼</div>
+  </div>
+  <div class="day-body" id="body1">
+    <div class="warm-up">🔥 Caminadora inclinada 10 min · Caderas activas</div>
+    <div class="section-tag">Entrenamiento principal</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">1</div><span class="ex-name">Hip Thrust</span><span class="ex-sets">4 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">2</div><span class="ex-name">Peso muerto rumano</span><span class="ex-sets">4 × 10</span></li>
+      <li class="exercise-item"><div class="ex-num">3</div><span class="ex-name">Curl femoral sentado</span><span class="ex-sets">3 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">4</div><span class="ex-name">Patada de glúteo en polea</span><span class="ex-sets">3 × 15 c/pierna</span></li>
+      <li class="exercise-item"><div class="ex-num">5</div><span class="ex-name">Abducción de cadera</span><span class="ex-sets">4 × 20</span></li>
+      <li class="exercise-item"><div class="ex-num">6</div><span class="ex-name">Puente de glúteo con peso</span><span class="ex-sets">3 × 15</span></li>
+    </ul>
+    <div class="cardio-block">🏃‍♀️ Escaladora 15 min — ritmo moderado-alto</div>
+  </div>
+</div>
+
+<!-- DÍA 2 -->
+<div class="day-card d2" id="d2">
+  <div class="day-header" onclick="toggle('2')">
+    <div class="day-emoji">💜</div>
+    <div>
+      <div class="day-title">Día 2 — Espalda + Abdomen</div>
+      <div class="day-sub">Postura, core y profundidad</div>
+    </div>
+    <div class="day-toggle" id="arr2">▼</div>
+  </div>
+  <div class="day-body" id="body2">
+    <div class="warm-up">🔥 Remo en polea ligero 5 min · Activa escápulas</div>
+    <div class="section-tag">Espalda</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">1</div><span class="ex-name">Jalón al pecho</span><span class="ex-sets">4 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">2</div><span class="ex-name">Remo sentado en polea</span><span class="ex-sets">4 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">3</div><span class="ex-name">Remo con mancuerna</span><span class="ex-sets">3 × 12 c/lado</span></li>
+      <li class="exercise-item"><div class="ex-num">4</div><span class="ex-name">Face Pull</span><span class="ex-sets">3 × 15</span></li>
+      <li class="exercise-item"><div class="ex-num">5</div><span class="ex-name">Pullover en polea</span><span class="ex-sets">3 × 15</span></li>
+    </ul>
+    <div class="section-tag">Abdomen</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">A</div><span class="ex-name">Crunch en máquina</span><span class="ex-sets">3 × 15</span></li>
+      <li class="exercise-item"><div class="ex-num">B</div><span class="ex-name">Elevación de piernas colgada</span><span class="ex-sets">3 × 15</span></li>
+      <li class="exercise-item"><div class="ex-num">C</div><span class="ex-name">Plancha</span><span class="ex-sets">3 × 40 seg</span></li>
+    </ul>
+    <div class="cardio-block">🚴‍♀️ Bicicleta estacionaria 20 min — ritmo constante</div>
+  </div>
+</div>
+
+<!-- DÍA 3 -->
+<div class="day-card d3" id="d3">
+  <div class="day-header" onclick="toggle('3')">
+    <div class="day-emoji">🦵</div>
+    <div>
+      <div class="day-title">Día 3 — Cuádriceps y Glúteo</div>
+      <div class="day-sub">Fuerza frontal y volumen de pierna</div>
+    </div>
+    <div class="day-toggle" id="arr3">▼</div>
+  </div>
+  <div class="day-body" id="body3">
+    <div class="warm-up">🔥 Caminadora inclinada 5 min + sentadilla sin peso 2 × 10</div>
+    <div class="section-tag">Entrenamiento principal</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">1</div><span class="ex-name">Sentadilla con barra</span><span class="ex-sets">4 × 10</span></li>
+      <li class="exercise-item"><div class="ex-num">2</div><span class="ex-name">Prensa de pierna</span><span class="ex-sets">4 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">3</div><span class="ex-name">Desplantes caminando</span><span class="ex-sets">3 × 20 pasos</span></li>
+      <li class="exercise-item"><div class="ex-num">4</div><span class="ex-name">Extensión de pierna</span><span class="ex-sets">3 × 15</span></li>
+      <li class="exercise-item"><div class="ex-num">5</div><span class="ex-name">Hip Thrust técnico (activación)</span><span class="ex-sets">3 × 15 ligero</span></li>
+      <li class="exercise-item"><div class="ex-num">6</div><span class="ex-name">Abducción en máquina</span><span class="ex-sets">3 × 20</span></li>
+    </ul>
+    <div class="cardio-block">🏃‍♀️ Caminadora inclinada 15 min — quema sin destruir pierna</div>
+  </div>
+</div>
+
+<!-- DÍA 4 -->
+<div class="day-card d4" id="d4">
+  <div class="day-header" onclick="toggle('4')">
+    <div class="day-emoji">💙</div>
+    <div>
+      <div class="day-title">Día 4 — Condición y Recuperación activa</div>
+      <div class="day-sub">Este día cambia tu semana</div>
+    </div>
+    <div class="day-toggle" id="arr4">▼</div>
+  </div>
+  <div class="day-body" id="body4">
+    <div class="section-tag">Elige una opción de cardio</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">A</div><span class="ex-name">Clase de spinning</span><span class="ex-sets">45–55 min</span></li>
+      <li class="exercise-item"><div class="ex-num">B</div><span class="ex-name">Natación continua</span><span class="ex-sets">40–50 min</span></li>
+      <li class="exercise-item"><div class="ex-num">C</div><span class="ex-name">Caminata a paso rápido exterior</span><span class="ex-sets">45 min</span></li>
+    </ul>
+    <div class="section-tag">Abdomen express (después del cardio)</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">1</div><span class="ex-name">Crunch</span><span class="ex-sets">3 × 20</span></li>
+      <li class="exercise-item"><div class="ex-num">2</div><span class="ex-name">Plancha</span><span class="ex-sets">3 × 45 seg</span></li>
+    </ul>
+    <div class="cardio-block">💙 Este día es el secreto — mantiene tu metabolismo activo y evita el estancamiento</div>
+  </div>
+</div>
+
+<!-- DÍA 5 -->
+<div class="day-card d5" id="d5">
+  <div class="day-header" onclick="toggle('5')">
+    <div class="day-emoji">🍑</div>
+    <div>
+      <div class="day-title">Día 5 — Glúteo Completo Intenso</div>
+      <div class="day-sub">Fuerza máxima + volumen total</div>
+    </div>
+    <div class="day-toggle" id="arr5">▼</div>
+  </div>
+  <div class="day-body" id="body5">
+    <div class="warm-up">🔥 Banda elástica de glúteo 2 × 20 · Activa antes de cargar</div>
+    <div class="section-tag">Entrenamiento principal</div>
+    <ul class="exercise-list">
+      <li class="exercise-item"><div class="ex-num">1</div><span class="ex-name">Hip Thrust pesado</span><span class="ex-sets">5 × 8</span></li>
+      <li class="exercise-item"><div class="ex-num">2</div><span class="ex-name">Peso muerto rumano</span><span class="ex-sets">4 × 10</span></li>
+      <li class="exercise-item"><div class="ex-num">3</div><span class="ex-name">Sentadilla sumo</span><span class="ex-sets">4 × 12</span></li>
+      <li class="exercise-item"><div class="ex-num">4</div><span class="ex-name">Patada de glúteo en polea</span><span class="ex-sets">3 × 15 c/pierna</span></li>
+      <li class="exercise-item"><div class="ex-num">5</div><span class="ex-name">Abducción en máquina</span><span class="ex-sets">4 × 20</span></li>
+      <li class="exercise-item"><div class="ex-num">6</div><span class="ex-name">Caminata lateral con banda</span><span class="ex-sets">3 vueltas</span></li>
+    </ul>
+    <div class="cardio-block">🏃‍♀️ Escaladora 20 min — termina fuerte la semana 🔥</div>
+  </div>
+</div>
+
+<!-- FIN DE SEMANA -->
+<div class="rest-card">
+  <div class="rest-title">🌸 Fin de semana — Mereces descansar</div>
+  <div style="font-size:.83rem;color:#3A7A39;font-weight:600">Elige lo que tu cuerpo pida ese día:</div>
+  <div class="rest-options">
+    <div class="rest-option">😴 Descanso total</div>
+    <div class="rest-option">🏊‍♀️ Natación recreativa</div>
+    <div class="rest-option">🚶‍♀️ Caminata 45 min</div>
+  </div>
+</div>
+
+<!-- TIP ALBERCA -->
+<div class="tip-box">
+  <div class="tip-title">💧 Tu ventaja secreta: la alberca</div>
+  <div class="tip-text">Con acceso a alberca, tienes algo que muchas no aprovechan. 20–30 min de natación 2 veces por semana después del gym activa quema de grasa, define piernas, baja cortisol y acelera recuperación. No es extra — es parte de tu resultado.</div>
+</div>
+
+<!-- META -->
+<div class="meta-section">
+  <div class="meta-title">✨ Tu progreso en 3 meses</div>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-icon">⚖️</div><div class="meta-val">60–62 kg</div><div class="meta-label">Peso meta</div></div>
+    <div class="meta-item"><div class="meta-icon">🍑</div><div class="meta-val">Firmes</div><div class="meta-label">Glúteos</div></div>
+    <div class="meta-item"><div class="meta-icon">✨</div><div class="meta-val">Más plano</div><div class="meta-label">Abdomen</div></div>
+    <div class="meta-item"><div class="meta-icon">🦵</div><div class="meta-val">Definidas</div><div class="meta-label">Piernas</div></div>
+    <div class="meta-item"><div class="meta-icon">❤️</div><div class="meta-val">Mejor</div><div class="meta-label">Condición</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Hecha con amor por <strong>tu coach favorito</strong> 🫶🏻<br>
+  <span style="font-size:.75rem;margin-top:.3rem;display:block">Consistencia > Perfección · 5 días · 3 meses · Resultados reales</span>
+</div>
+
+<script>
+function toggle(n){
+  var body=document.getElementById('body'+n);
+  var arr=document.getElementById('arr'+n);
+  var isOpen=body.classList.contains('open');
+  document.querySelectorAll('.day-body').forEach(function(b){b.classList.remove('open')});
+  document.querySelectorAll('.day-toggle').forEach(function(a){a.style.transform='';a.textContent='▼'});
+  if(!isOpen){body.classList.add('open');arr.style.transform='rotate(180deg)';arr.textContent='▲'}
+}
+</script>
+</body>
+</html>
